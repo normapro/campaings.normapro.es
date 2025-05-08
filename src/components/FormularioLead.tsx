@@ -2,9 +2,25 @@
 import { useForm } from 'react-hook-form';
 
 export default function FormularioLead() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  //const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm<FormularioLeadData>();
 
-  const onSubmit = async (data) => {
+  interface FormularioLeadData {
+    nombre: string;
+    apellidos: string;
+    empresa?: string;
+    cargo?: string;
+    pais?: string;
+    n_empleados?: string;
+    telefono?: string;
+    email: string;
+    acepta_marketing?: boolean;
+    acepta_contacto?: boolean;
+    acepta_politica: boolean;
+  }
+
+
+  const onSubmit = async (data: FormularioLeadData) => {
     const res = await fetch('https://api-campaigns.normapro.es/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
