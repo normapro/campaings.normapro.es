@@ -10,11 +10,11 @@ export default function PageTestMadurezCumplimiento() {
   const handleCloseModal = () => setIsModalOpen(false);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 space-y-12">
+    <div className="">
       <ModalFormulario visible={isModalOpen} onClose={handleCloseModal} />
 
       {/* Hero */}
-      <section className="text-center space-y-4">
+      <section className="text-center space-y-4 mt-10 mb-12 max-w-4xl mx-auto px-4 py-12 space-y-12">
         <h1 className="text-3xl font-bold">
           ¿Sabes si tu empresa cumple... o simplemente sobrevive?
         </h1>
@@ -27,7 +27,8 @@ export default function PageTestMadurezCumplimiento() {
       </section>
 
       {/* ¿Qué es este test y para quién está pensado? */}
-      <section className="space-y-4">
+      <div className="bg-[#f9f9f9]">
+      <section className="space-y-4 mt-10 mb-12 max-w-4xl mx-auto px-4 py-12 space-y-8">
         <h2 className="text-2xl font-semibold">¿Qué es este test y para quién está pensado?</h2>
         <p>
           Este test ha sido diseñado para ayudar a empresarios, compliance officers, responsables de calidad, medio ambiente, PRL, dirección general y otros profesionales clave a identificar su punto de partida en la gestión del cumplimiento.
@@ -36,9 +37,11 @@ export default function PageTestMadurezCumplimiento() {
           En solo unos minutos, podrás visualizar tus puntos fuertes, detectar tus principales debilidades y empezar a definir una hoja de ruta hacia una gestión interna más eficiente, trazable y alineada con los objetivos del negocio.
         </p>
       </section>
+      </div>
 
+      {/* ¿Por qué es importante medir? */}
       {/* ¿Qué vas a obtener con este test gratuito? */}
-      <section className="space-y-4">
+      <section className="space-y-4 max-w-4xl mx-auto px-4 py-12 space-y-8">
         <h2 className="text-2xl font-semibold">¿Qué vas a obtener con este test gratuito?</h2>
         <ul className="list-disc list-inside space-y-1">
           <li>Evaluación inmediata en 10 bloques clave</li>
@@ -50,7 +53,7 @@ export default function PageTestMadurezCumplimiento() {
       </section>
 
       {/* Formulario de descarga */}
-      <section className="space-y-4 text-center">
+      <section className="space-y-4 text-center max-w-4xl mx-auto px-4 py-12 space-y-8">
         <h2 className="text-2xl font-semibold">Formulario de descarga</h2>
         <p>
           Haz clic en el botón y accede a un breve formulario donde podrás completar tus datos. En menos de un minuto recibirás el test completo en tu correo.
@@ -61,7 +64,8 @@ export default function PageTestMadurezCumplimiento() {
       </section>
 
       {/* Confianza y credibilidad */}
-      <section className="space-y-4">
+      <div className="bg-[#f9f9f9]">
+      <section className="space-y-4 max-w-4xl mx-auto px-4 py-12 space-y-8 text-center ">
         <h2 className="text-2xl font-semibold">Confianza y credibilidad</h2>
         <p>
           Este test ha sido elaborado por expertos consultores del Instituto de Innovación, Ciencia y Empresa, que llevan más de veinte años dedicados a la implantación de sistemas de gestión y cumplimiento normativo en organizaciones de todos los tamaños y sectores.
@@ -70,9 +74,12 @@ export default function PageTestMadurezCumplimiento() {
           Más que una herramienta, es el punto de partida para visualizar con claridad dónde estás y hacia dónde puedes avanzar.
         </p>
       </section>
+      </div>
+
+      {/* ¿Por qué NormaPro? */}
 
       {/* Diagnóstico y enfoque */}
-      <section className="space-y-4">
+      <section className="space-y-4 max-w-4xl mx-auto px-4 py-12 space-y-8 text-center">
         <h2 className="text-2xl font-semibold">Un test. Un diagnóstico. Un nuevo enfoque.</h2>
         <p>
           Empieza por medir. Después, podrás decidir cómo avanzar.
@@ -83,7 +90,7 @@ export default function PageTestMadurezCumplimiento() {
       </section>
 
       {/* Solicitar reunión personalizada */}
-      <section className="text-center space-y-4">
+      <section className="text-center space-y-4 max-w-4xl mx-auto px-4 py-12 space-y-10">
         <h2 className="text-2xl font-semibold">¿Quieres avanzar con acompañamiento experto?</h2>
         <p>
           Agenda una reunión con nuestro equipo y te contaremos cómo ayudarte a interpretar tus resultados, priorizar acciones y avanzar hacia un modelo de cumplimiento más eficiente, trazable y alineado con tu realidad empresarial.
