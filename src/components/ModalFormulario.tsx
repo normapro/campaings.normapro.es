@@ -69,7 +69,7 @@ export default function ModalFormulario({ visible, onClose }: Props) {
             <input placeholder="Introduce tus apellidos" {...register('apellidos', { required: true })} className="w-full border p-2 rounded mt-2" />
             <input placeholder="Nombre de tu empresa" {...register('empresa')} className="w-full border p-2 rounded mt-2" />
             <input placeholder="Introduce tu cargo" {...register('cargo')} className="w-full border p-2 rounded mt-2" />
-            <input placeholder="Introduce tu país" {...register('pais')} className="w-full border p-2 rounded mt-2" />
+            {/*<input placeholder="Introduce tu país" {...register('pais')} className="w-full border p-2 rounded mt-2" />*/}
             <select {...register('n_empleados')} className="w-full border p-2 rounded mt-2">
               <option value="">Selecciona un rango</option>
               <option value="1-49">1-49 Empleados</option>
