@@ -47,8 +47,8 @@ export default function ModalFormulario({ visible, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-      <div className="bg-white max-w-3xl w-full rounded-lg p-6 relative fade-in shadow-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm px-4">
+      <div className="bg-white w-full max-w-3xl rounded-lg p-6 relative fade-in shadow-lg max-h-[90vh] overflow-y-auto">
         {/* Botón cerrar */}
         <button onClick={onClose} className="absolute top-4 right-4 text-2xl font-bold text-gray-600 hover:text-black">
           ×
@@ -56,21 +56,21 @@ export default function ModalFormulario({ visible, onClose }: Props) {
 
         <h2 className="text-2xl font-bold mb-2">Test de madurez de cumplimiento</h2>
         <p className="mb-6 text-gray-600">
-  Rellena este formulario y nos pondremos en contacto contigo para hacerte llegar el test de madurez de cumplimiento gratuito y sin compromiso.
-</p>
+          Rellena este formulario y nos pondremos en contacto contigo para hacerte llegar el test de madurez de cumplimiento gratuito y sin compromiso.
+        </p>
 
         {mensaje ? (
           <div className="text-center text-green-700 font-semibold text-lg p-4">
             {mensaje}
           </div>
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="gap-4 py-4">
-            <input placeholder="Introduce tu nombre" {...register('nombre', { required: true })} className="w-full border p-2 rounded mt-2"/>
-            <input placeholder="Introduce tus apellidos" {...register('apellidos', { required: true })} className="w-full border p-2 rounded mt-2" />
-            <input placeholder="Nombre de tu empresa" {...register('empresa')} className="w-full border p-2 rounded mt-2" />
-            <input placeholder="Introduce tu cargo" {...register('cargo')} className="w-full border p-2 rounded mt-2" />
-            {/*<input placeholder="Introduce tu país" {...register('pais')} className="w-full border p-2 rounded mt-2" />*/}
-            <select {...register('n_empleados')} className="w-full border p-2 rounded mt-2">
+          <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-4">
+            <input placeholder="Introduce tu nombre" {...register('nombre', { required: true })} className="w-full block border p-2 rounded" />
+            <input placeholder="Introduce tus apellidos" {...register('apellidos', { required: true })} className="w-full block border p-2 rounded" />
+            <input placeholder="Nombre de tu empresa" {...register('empresa')} className="w-full block border p-2 rounded" />
+            <input placeholder="Introduce tu cargo" {...register('cargo')} className="w-full block border p-2 rounded" />
+            <input placeholder="Introduce tu país" {...register('pais')} className="w-full block border p-2 rounded" />
+            <select {...register('n_empleados')} className="w-full block border p-2 rounded">
               <option value="">Selecciona un rango</option>
               <option value="1-49">1-49 Empleados</option>
               <option value="50-499">50-499 Empleados</option>
@@ -83,16 +83,16 @@ export default function ModalFormulario({ visible, onClose }: Props) {
                 value: /^[+]?[(]?[0-9]{1,4}[)]?[-\s\./0-9]*$/,
                 message: "Introduce un teléfono válido"
               }
-            })} className="w-full border p-2 rounded mt-2" />
+            })} className="w-full block border p-2 rounded" />
             <input placeholder="Introduce tu email" {...register('email', {
               required: true,
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 message: "Introduce un correo electrónico válido"
               }
-            })} className="w-full border p-2 rounded mt-2" />
+            })} className="w-full block border p-2 rounded" />
 
-            <div className="col-span-2 space-y-2 text-sm text-gray-700 mt-4">
+            <div className="col-span-1 space-y-2 text-sm text-gray-700 mt-4">
               <label className="flex items-start gap-2">
                 <input type="checkbox" {...register('acepta_marketing')} />
                 <span>Acepta recibir mensajes promocionales de NormaPro.</span>
@@ -110,10 +110,10 @@ export default function ModalFormulario({ visible, onClose }: Props) {
               {errors.acepta_politica && <p className="text-red-500 text-sm">Este campo es obligatorio.</p>}
             </div>
 
-            {errors.telefono && <p className="text-red-500 text-sm col-span-2">{errors.telefono.message}</p>}
-            {errors.email && <p className="text-red-500 text-sm col-span-2">{errors.email.message}</p>}
+            {errors.telefono && <p className="text-red-500 text-sm col-span-1">{errors.telefono.message}</p>}
+            {errors.email && <p className="text-red-500 text-sm col-span-1">{errors.email.message}</p>}
 
-            <div className="col-span-2 flex justify-center mt-6">
+            <div className="col-span-1 flex justify-center mt-6">
               <button type="submit" className="bg-blue-900 text-white px-6 py-2 rounded">
                 Enviar
               </button>
