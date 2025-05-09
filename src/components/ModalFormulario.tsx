@@ -65,19 +65,12 @@ export default function ModalFormulario({ visible, onClose }: Props) {
           </div>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-4">
+            <div className="col-span-1 space-y-2">
             <input placeholder="Introduce tu nombre" {...register('nombre', { required: true })} className="w-full block border p-2 rounded" />
             <input placeholder="Introduce tus apellidos" {...register('apellidos', { required: true })} className="w-full block border p-2 rounded" />
             <input placeholder="Nombre de tu empresa" {...register('empresa')} className="w-full block border p-2 rounded" />
             <input placeholder="Introduce tu cargo" {...register('cargo')} className="w-full block border p-2 rounded" />
             <input placeholder="Introduce tu país" {...register('pais')} className="w-full block border p-2 rounded" />
-            <select {...register('n_empleados')} className="w-full block border p-2 rounded">
-              <option value="">Selecciona un rango</option>
-              <option value="1-49">1-49 Empleados</option>
-              <option value="50-499">50-499 Empleados</option>
-              <option value="500-999">500-999 Empleados</option>
-              <option value="100-1499">100-1499 Empleados</option>
-              <option value="1500+">Más de 1500 Empleados</option>
-            </select>
             <input placeholder="Introduce tu teléfono" {...register('telefono', {
               pattern: {
                 value: /^[+]?[(]?[0-9]{1,4}[)]?[-\s\./0-9]*$/,
@@ -91,6 +84,17 @@ export default function ModalFormulario({ visible, onClose }: Props) {
                 message: "Introduce un correo electrónico válido"
               }
             })} className="w-full block border p-2 rounded" />
+            </div>
+
+            <select {...register('n_empleados')} className="w-full block border p-2 rounded">
+              <option value="">Selecciona un rango</option>
+              <option value="1-49">1-49 Empleados</option>
+              <option value="50-499">50-499 Empleados</option>
+              <option value="500-999">500-999 Empleados</option>
+              <option value="100-1499">100-1499 Empleados</option>
+              <option value="1500+">Más de 1500 Empleados</option>
+            </select>
+            
 
             <div className="col-span-1 space-y-2 text-sm text-gray-700 mt-4">
               <label className="flex items-start gap-2">
