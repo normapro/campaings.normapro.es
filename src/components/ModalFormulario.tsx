@@ -64,13 +64,13 @@ export default function ModalFormulario({ visible, onClose }: Props) {
             {mensaje}
           </div>
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input placeholder="Introduce tu nombre" {...register('nombre', { required: true })} className="border p-2 rounded" />
-            <input placeholder="Introduce tus apellidos" {...register('apellidos', { required: true })} className="border p-2 rounded" />
-            <input placeholder="Nombre de tu empresa" {...register('empresa')} className="border p-2 rounded" />
-            <input placeholder="Introduce tu cargo" {...register('cargo')} className="border p-2 rounded" />
-            <input placeholder="Introduce tu país" {...register('pais')} className="border p-2 rounded" />
-            <select {...register('n_empleados')} className="border p-2 rounded">
+          <form onSubmit={handleSubmit(onSubmit)} className="gap-4 py-4">
+            <input placeholder="Introduce tu nombre" {...register('nombre', { required: true })} className="w-full border p-2 rounded mt-2"/>
+            <input placeholder="Introduce tus apellidos" {...register('apellidos', { required: true })} className="w-full border p-2 rounded mt-2" />
+            <input placeholder="Nombre de tu empresa" {...register('empresa')} className="w-full border p-2 rounded mt-2" />
+            <input placeholder="Introduce tu cargo" {...register('cargo')} className="w-full border p-2 rounded mt-2" />
+            <input placeholder="Introduce tu país" {...register('pais')} className="w-full border p-2 rounded mt-2" />
+            <select {...register('n_empleados')} className="w-full border p-2 rounded mt-2">
               <option value="">Selecciona un rango</option>
               <option value="1-49">1-49 Empleados</option>
               <option value="50-499">50-499 Empleados</option>
@@ -83,14 +83,14 @@ export default function ModalFormulario({ visible, onClose }: Props) {
                 value: /^[+]?[(]?[0-9]{1,4}[)]?[-\s\./0-9]*$/,
                 message: "Introduce un teléfono válido"
               }
-            })} className="border p-2 rounded" />
+            })} className="w-full border p-2 rounded mt-2" />
             <input placeholder="Introduce tu email" {...register('email', {
               required: true,
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 message: "Introduce un correo electrónico válido"
               }
-            })} className="border p-2 rounded" />
+            })} className="w-full border p-2 rounded mt-2" />
 
             <div className="col-span-2 space-y-2 text-sm text-gray-700 mt-4">
               <label className="flex items-start gap-2">
