@@ -2,7 +2,7 @@
 
 const Home = () => {
   return (
-    <div>
+    <div className="relative">
       <div className="mb-[230px]">
         <div className="text-center text-[#010D3D] font-black text-[44px] leading-tight mt-[100px] mb-[17px]">
           <h1>¿Sabes si tu empresa cumple...</h1>
@@ -13,9 +13,23 @@ const Home = () => {
           <p>y las oportunidades ocultas que podrías estar desaprovechando.</p>
         </div>
         <div className="flex justify-center">
-          <button className="mt-[25px] text-white font-bold bg-[#010D3D] py-[14px] px-[22px] rounded-xl hover:bg-[#2c365e]">Descarga el test ahora</button>
+          <button className="mt-[25px] text-white font-bold bg-[#010D3D] w-[216px] h-[50px] rounded-xl hover:bg-[#2c365e]">
+            Descarga el test ahora
+          </button>
         </div>
       </div>
+
+      <img
+        src="/Grupo 3539.png"
+        alt="Decoración"
+        className="absolute top-[-130px] left-[-200px] w-[474px] h-[413px] pointer-events-none select-none"
+      />
+
+      <img
+        src="/Grupo 3520.png"
+        alt="Decoración secundaria"
+        className="absolute top-[-5px] left-[1614px] w-[442px] h-[387px] opacity-50 pointer-events-none select-none"
+      />
 
       <div className="ml-[35px]">
         <div className="text-[#010D3D] font-black text-[30px] leading-tight mt-[100px] mb-[17px]">
@@ -34,7 +48,6 @@ const Home = () => {
           <p className="text-[#010D3D] mb-[-1px]">gestión interna más eficiente, trazable y alineada con los objetivos del</p>
           <p className="text-[#010D3D] mb-[-1px]">negocio.</p>
         </div>
-
       </div>
     </div>
   );
