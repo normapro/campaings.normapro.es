@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import TestInfo from './TestInfo'; // Asegúrate de que la ruta sea correcta
 
 const Home = () => {
   return (
@@ -22,17 +23,8 @@ const Home = () => {
         Descarga el test ahora
       </button>
 
-      {/* Bloque de contenido informativo */}
-      <div className="bg-white rounded-lg p-6 shadow-md">
-        <h2 className="text-xl font-bold mb-4">¿Qué vas a obtener con este test gratuito?</h2>
-        <ul className="list-disc pl-5 space-y-2 text-gray-600">
-          <li>Evaluación inmediata en 10 bloques clave.</li>
-          <li>Tabla de resultados y niveles de madurez.</li>
-          <li>Recomendaciones personalizadas para cada nivel.</li>
-          <li>Ideas para mejorar procesos y digitalizar con sentido.</li>
-          <li>Documento descargable y compartible con tu equipo o dirección.</li>
-        </ul>
-      </div>
+      {/* Componente TestInfo */}
+      <TestInfo />
     </div>
   );
 };
