@@ -5,6 +5,7 @@ import "./globals.css";
 
 import { Mulish } from 'next/font/google';
 import Header from "@/components/Header";
+import Home from "@/components/Home";
 import Footer from "@/components/Footer";
 
 const mulish = Mulish({
@@ -49,7 +50,7 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <Header />
-        {children}
+        <Home />
         <Footer />
       </body>
     </html>
