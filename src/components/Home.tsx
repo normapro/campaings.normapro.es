@@ -28,10 +28,10 @@ const Home = () => {
       <img
         src="/Grupo 3520.png"
         alt="Decoración secundaria"
-        className="absolute top-[-5px] left-[1614px] w-[442px] h-[387px] opacity-50 pointer-events-none select-none"
+        className="absolute top-[-5px] left-[1614px] w-[442px] h-[387px] pointer-events-none select-none"
       />
 
-      <div className="ml-[35px]">
+      <div className="ml-[355px]">
         <div className="text-[#010D3D] font-black text-[30px] leading-tight mt-[100px] mb-[17px]">
           <h2>¿Qué es este test y para </h2>
           <h2>quién está pensado?</h2>
@@ -49,6 +49,21 @@ const Home = () => {
           <p className="text-[#010D3D] mb-[-1px]">negocio.</p>
         </div>
       </div>
+
+      <img
+        src="/Grupo 5292.png"
+        alt="Decoración terciaria"
+        className="absolute top-[495px] left-[1097px] w-[290px] h-[254px] pointer-events-none select-none"
+      />
+
+      <img
+        src="/IICE_LandingCompliancePenal_Nivel2_4.svg"
+        alt="Imagen decorativa"
+        className="absolute top-[515px] left-[1097px] w-[290px] h-[234px] pointer-events-none select-none"
+      />
+
+
+
     </div>
   );
 };
