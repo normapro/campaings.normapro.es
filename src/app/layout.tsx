@@ -52,6 +52,7 @@ export default function RootLayout({
       >
         <Header />
         <Home />
+        <TestInfo />
         <Footer />
       </body>
     </html>
