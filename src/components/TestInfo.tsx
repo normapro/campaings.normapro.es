@@ -1,12 +1,11 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 
 const TestInfo = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 grid gap-12">
-      {/* Sección 1 */}
+      {/* Sección 2 */}
       <div className="grid md:grid-cols-2 items-center gap-8">
         <div>
           <h2 className="text-2xl font-black text-[#010D3D] mb-4">
@@ -21,19 +20,22 @@ const TestInfo = () => {
         </div>
       </div>
 
-      {/* Sección 2 */}
-      <div className="grid md:grid-cols-2 items-center gap-8">
+      {/* Sección 3 */}
+      <div className="bg-[#CFE3FF] p-8 rounded-lg text-center">
         <div>
           <h2 className="text-2xl font-black text-[#010D3D] mb-4">
-            ¿Qué vas a obtener con este test gratuito?
+            Formulario de descarga
           </h2>
-          <ul className="list-disc pl-5 space-y-2 text-[#4B5563]">
-            <li>Evaluación inmediata en 10 bloques clave.</li>
-            <li>Tabla de resultados y niveles de madurez.</li>
-            <li>Recomendaciones personalizadas para cada nivel.</li>
-            <li>Ideas para mejorar procesos y digitalizar con sentido.</li>
-            <li>Documento descargable y compartible con tu equipo o dirección.</li>
-          </ul>
+          <p className="text-[#4B5563] mb-2">
+            Haz clic en el botón y accede a un breve formulario donde podrás completar tus datos.
+          </p>
+          <p className="text-[#4B5563] mb-4">
+            En menos de un minuto recibirás el test completo en tu correo electrónico.
+          </p>
+
+          <button className="bg-[#010D3D] text-white font-semibold py-2 px-6 rounded-full border-2 border-[#010D3D] hover:bg-[#0a1b6e] transition">
+            Quiero mi test ahora
+          </button>
         </div>
       </div>
     </div>
