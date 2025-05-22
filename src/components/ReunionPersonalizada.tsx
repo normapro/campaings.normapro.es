@@ -2,13 +2,13 @@
 
 const ReunionPersonalizada = () => {
     return (
-        <div>
-            <div className="flex">
-                <div>
-                    <h2>Confianza y</h2>
-                    <h2>credibilidad</h2>
+        <div className="min-h-screen flex flex-col items-center justify-center px-4">
+            <div className="flex justify-center gap-x-12 text-left max-w-7xl">
+                <div className="max-w-sm border-r border-[#cccfd8] pr-[40px]">
+                    <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">Confianza y</h2>
+                    <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">credibilidad</h2>
 
-                    <div>
+                    <div className="mt-[30px] text-[#010D3D] mt-4">
                         <p>Este test ha sido elaborado por expertos</p>
                         <p>consultores del Instituto de Innovación, Ciencia</p>
                         <p>y Empresa, que llevan más de veinte años</p>
@@ -18,50 +18,55 @@ const ReunionPersonalizada = () => {
                         <p>sectores.</p>
                     </div>
 
-                    <div>
+                    <div className="text-[#010D3D] mt-4">
                         <p>Más que una herramienta, es el punto de</p>
                         <p>partida para visualizar con claridad dónde</p>
                         <p>estás y hacia dónde puedes avanzar.</p>
                     </div>
-
                 </div>
-                <div>
-                    <h2>Un test.</h2>
-                    <h2>Un diagnóstico</h2>
-                    <h2>Un nuevo enfoque.</h2>
 
-                    <div>
+                <div className="max-w-sm">
+                    <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">Un test.</h2>
+                    <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">Un diagnóstico</h2>
+                    <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">Un nuevo enfoque.</h2>
+
+                    <div className="mt-[30px] text-[#010D3D] mt-4">
                         <p>Empieza por medir. Después, podrás decidir</p>
                         <p>cómo avanzar.</p>
                     </div>
 
-                    <div>
-                        <p>Este test te ofrece claridad, dirección y </p>
+                    <div className="text-[#010D3D] mt-4">
+                        <p>Este test te ofrece claridad, dirección y</p>
                         <p>enfoque. Y si descubres que hay margen de</p>
                         <p>mejora, en Norma Pro estamos listos para</p>
                         <p>acompañarte con soluciones digitales que</p>
                         <p>convierten el cumplimiento en una palanca</p>
                         <p>real de eficiencia y crecimiento.</p>
                     </div>
-
                 </div>
-                <div>
-                    <h2>¿Quieres avanzar con</h2>
-                    <h2>acompañamiento</h2>
-                    <h2>experto?</h2>
 
-                    <p>Agenda una reunión con nuestro equipo y te</p>
-                    <p>contaremos cómo ayudarte a interpretar tus</p>
-                    <p>resultados, priorizar acciones y avanzar hacia</p>
-                    <p>un modelo de cumplimiento más eficiente,</p>
-                    <p>trazable y alineado con tu realidad empresarial.</p>
+                <div className="max-w-sm border-l border-[#cccfd8] pl-[40px]">
+                    <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">¿Quieres avanzar con</h2>
+                    <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">acompañamiento</h2>
+                    <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">experto?</h2>
+
+                    <div className="mt-[30px] text-[#010D3D] mt-4">
+                        <p>Agenda una reunión con nuestro equipo y te</p>
+                        <p>contaremos cómo ayudarte a interpretar tus</p>
+                        <p>resultados, priorizar acciones y avanzar hacia</p>
+                        <p>un modelo de cumplimiento más eficiente,</p>
+                        <p>trazable y alineado con tu realidad empresarial.</p>
+                    </div>
                 </div>
             </div>
-            <div>
-                <button>Solicita una reunión personalizada</button>
+
+            <div className="mt-12">
+                <button className="hover:bg-[#010D3D] bg-gradient-to-r from-[#00B8EC] to-[#D6A4F1] text-white px-6 py-3 rounded-lg font-semibold border-none focus:outline-none">
+                    Solicita una reunión personalizada
+                </button>
             </div>
         </div>
     );
-};
+};  
 
 export default ReunionPersonalizada;
