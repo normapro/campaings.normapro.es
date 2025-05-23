@@ -62,8 +62,6 @@ const Home = () => {
         className="absolute top-[515px] left-[1097px] w-[290px] h-[234px] pointer-events-none select-none"
       />
 
-
-
     </div>
   );
 };

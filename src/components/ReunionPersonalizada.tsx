@@ -2,9 +2,22 @@
 
 const ReunionPersonalizada = () => {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center px-4">
+        <div className="min-h-screen flex flex-col items-center justify-center px-4 mb-[-170px] mt-[120px]">
             <div className="flex justify-center gap-x-12 text-left max-w-7xl">
                 <div className="max-w-sm border-r border-[#cccfd8] pr-[40px]">
+
+                    <img
+                        src="/IICE_LandingCompliancePenal_Nivel2_1.svg"
+                        alt="Decoración"
+                        className="absolute top-[1940px] left-[374px] w-[264px] h-[253px] pointer-events-none select-none"
+                    />
+
+                    <img
+                        src="/Grupo 4580.png"
+                        alt="Decoración"
+                        className="absolute top-[1940px] left-[374px] w-[264px] h-[253px] pointer-events-none select-none"
+                    />
+
                     <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">Confianza y</h2>
                     <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">credibilidad</h2>
 
@@ -26,6 +39,19 @@ const ReunionPersonalizada = () => {
                 </div>
 
                 <div className="max-w-sm">
+
+                    <img
+                        src="/IICE_LandingCompliancePenal_Nivel1_6.svg"
+                        alt="Decoración"
+                        className="absolute top-[1986px] left-[830px] w-[218px] h-[191px] pointer-events-none select-none"
+                    />
+
+                    <img
+                        src="/Grupo 5276.png"
+                        alt="Decoración"
+                        className="absolute top-[1966px] left-[850px] w-[218px] h-[191px] pointer-events-none select-none"
+                    />
+
                     <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">Un test.</h2>
                     <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">Un diagnóstico</h2>
                     <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">Un nuevo enfoque.</h2>
@@ -46,6 +72,19 @@ const ReunionPersonalizada = () => {
                 </div>
 
                 <div className="max-w-sm border-l border-[#cccfd8] pl-[40px]">
+
+                    <img
+                        src="/IICE_LandingCompliancePenal_Nivel2_3.svg"
+                        alt="Decoración"
+                        className="absolute top-[1938px] left-[1237px] w-[285px] h-[249px] pointer-events-none select-none"
+                    />
+
+                    <img
+                        src="/Grupo 5265.png"
+                        alt="Decoración"
+                        className="absolute top-[1938px] left-[1237px] w-[285px] h-[249px] pointer-events-none select-none"
+                    />
+
                     <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">¿Quieres avanzar con</h2>
                     <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">acompañamiento</h2>
                     <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">experto?</h2>
@@ -67,6 +106,6 @@ const ReunionPersonalizada = () => {
             </div>
         </div>
     );
-};  
+};
 
 export default ReunionPersonalizada;
