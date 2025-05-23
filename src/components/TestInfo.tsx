@@ -42,25 +42,25 @@ const TestInfo = () => {
       </div>
 
       {/* Sección 3 */}
-      <div className="bg-[#E5F0FF] p-8 rounded-lg text-center mt-16">
+      <div className="bg-gradient-to-br from-[#84DBF4] to-[#B8F2EA] p-8 text-center mt-16">
         <div className="mb-6 flex justify-center">
           <Image
             src={image2}
             alt="Formulario"
-            className="w-full h-auto max-w-[150px]"
+            className="w-full h-auto max-w-[130px] mt-[40px]"
           />
         </div>
         <h2 className="text-3xl font-black text-[#010D3D] mb-4">
           Formulario de descarga
         </h2>
-        <p className="text-[#4B5563] mb-2">
+        <p className="text-[#010D3D]">
           Haz clic en el botón y accede a un breve formulario donde podrás completar tus datos.
         </p>
-        <p className="text-[#4B5563] mb-6">
+        <p className="text-[#010D3D] mb-6">
           En menos de un minuto recibirás el test completo en tu correo electrónico.
         </p>
 
-        <button className="bg-[#010D3D] text-white font-semibold py-2 px-6 rounded-full border-2 border-[#010D3D] hover:bg-[#0a1b6e] transition">
+        <button className="bg-[#010D3D] text-white font-semibold py-3 px-6 rounded-lg border-2 border-none hover:bg-[#2c365e] transition mb-[70px]">
           Quiero mi test ahora
         </button>
       </div>
