@@ -10,13 +10,13 @@ const ReunionPersonalizada = () => {
                         <img
                             src="/IICE_LandingCompliancePenal_Nivel2_1.svg"
                             alt="Decoración"
-                            className="absolute top-[1940px] left-[374px] w-[264px] h-[253px] pointer-events-none select-none z-[10]"
+                            className="absolute top-[2020px] left-[374px] w-[264px] h-[253px] pointer-events-none select-none z-[10]"
                         />
 
                         <img
                             src="/Grupo 4580.png"
                             alt="Decoración"
-                            className="absolute top-[1940px] left-[374px] w-[264px] h-[253px] pointer-events-none select-none z-[0]"
+                            className="absolute top-[2020px] left-[374px] w-[264px] h-[253px] pointer-events-none select-none z-[0]"
                         />
 
                         <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">Confianza y</h2>
@@ -48,13 +48,13 @@ const ReunionPersonalizada = () => {
                         <img
                             src="/IICE_LandingCompliancePenal_Nivel1_6.svg"
                             alt="Decoración"
-                            className="absolute top-[1986px] left-[830px] w-[218px] h-[191px] pointer-events-none select-none z-[10]"
+                            className="absolute top-[2066px] left-[830px] w-[218px] h-[191px] pointer-events-none select-none z-[10]"
                         />
 
                         <img
                             src="/Grupo 5276.png"
                             alt="Decoración"
-                            className="absolute top-[1966px] left-[850px] w-[218px] h-[191px] pointer-events-none select-none z-[0]"
+                            className="absolute top-[2046px] left-[850px] w-[218px] h-[191px] pointer-events-none select-none z-[0]"
                         />
 
                         <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">Un test.</h2>
@@ -86,13 +86,13 @@ const ReunionPersonalizada = () => {
                         <img
                             src="/IICE_LandingCompliancePenal_Nivel2_3.svg"
                             alt="Decoración"
-                            className="absolute top-[1938px] left-[1237px] w-[285px] h-[249px] pointer-events-none select-none z-[10]"
+                            className="absolute top-[2018px] left-[1237px] w-[285px] h-[249px] pointer-events-none select-none z-[10]"
                         />
 
                         <img
                             src="/Grupo 5265.png"
                             alt="Decoración"
-                            className="absolute top-[1938px] left-[1237px] w-[285px] h-[249px] pointer-events-none select-none z-[0]"
+                            className="absolute top-[2018px] left-[1237px] w-[285px] h-[249px] pointer-events-none select-none z-[0]"
                         />
 
                         <h2 className="text-[#010D3D] font-extrabold text-[28px] leading-tight">¿Quieres avanzar con</h2>
