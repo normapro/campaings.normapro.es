@@ -10,7 +10,7 @@ const ReunionPersonalizada = () => {
                         <img
                             src="/IICE_LandingCompliancePenal_Nivel2_1.svg"
                             alt="Decoración"
-                            className="absolute top-[1940px] left-[374px] w-[264px] h-[253px] pointer-events-none select-none z-[10]" 
+                            className="absolute top-[1940px] left-[374px] w-[264px] h-[253px] pointer-events-none select-none z-[10]"
                         />
 
                         <img
@@ -113,7 +113,7 @@ const ReunionPersonalizada = () => {
             </div>
 
             <div className="mt-12">
-                <button className="hover:bg-[#2c365e] bg-gradient-to-r from-[#00B8EC] to-[#D6A4F1] text-white px-6 py-3 rounded-lg font-semibold border-none focus:outline-none">
+                <button className="relative overflow-hidden text-white px-6 py-3 rounded-lg font-semibold border-none focus:outline-none transition-colors duration-500 bg-gradient-to-r from-[#00B8EC] to-[#D6A4F1] hover:bg-[#2c365e] hover:from-transparent hover:to-transparent">
                     Solicita una reunión personalizada
                 </button>
             </div>
