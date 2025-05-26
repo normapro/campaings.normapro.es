@@ -28,10 +28,10 @@ const TestInfo = () => {
         </div>
 
         <div>
-          <h2 className="text-3xl font-black text-[#010D3D] mb-4">
-            ¿Qué vas a obtener con este test gratuito?
-          </h2>
-          <ul className="list-disc pl-5 text-[#4B5563] space-y-1">
+          <h2 className="text-3xl font-black text-[#010D3D]">
+            ¿Qué vas a obtener con</h2>
+            <h2 className="text-3xl font-black text-[#010D3D] mb-4">este test gratuito?</h2>
+          <ul className="list-disc pl-5 text-[#010D3D] space-y-1 marker:text-xs">
             <li>Evaluación inmediata en 10 bloques clave.</li>
             <li>Tabla de resultados y niveles de madurez.</li>
             <li>Recomendaciones personalizadas para cada sentido.</li>
