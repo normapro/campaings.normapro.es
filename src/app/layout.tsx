@@ -5,9 +5,9 @@ import "./globals.css";
 
 import { Mulish } from 'next/font/google';
 import Header from "@/components/Header";
-import Home from "@/components/Home";
-import TestInfo from "@/components/TestInfo";
-import ReunionPersonalizada from "@/components/ReunionPersonalizada";
+import Home from "@/components/test-y-reunion-components/Home";
+import TestInfo from "@/components/test-y-reunion-components/TestInfo";
+import ReunionPersonalizada from "@/components/test-y-reunion-components/ReunionPersonalizada";
 import Footer from "@/components/Footer";
 
 const mulish = Mulish({

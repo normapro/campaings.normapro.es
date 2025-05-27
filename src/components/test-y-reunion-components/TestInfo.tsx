@@ -2,9 +2,9 @@
 
 import React from 'react';
 import Image from 'next/image';
-import image1 from '../../public/imagenSeccion21.svg';
-import image2 from '../../public/imagenSeccion32.svg';
-import image3 from '../../public/imagenSeccion23.png';
+import image1 from '/public/imagenSeccion21.svg';
+import image2 from '/public/imagenSeccion32.svg';
+import image3 from '/public/imagenSeccion23.png';
 
 const TestInfo = () => {
   return (
