@@ -52,9 +52,7 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <Header />
-        <Home />
-        <TestInfo />
-        <ReunionPersonalizada />
+        {children}
         <Footer />
       </body>
     </html>
