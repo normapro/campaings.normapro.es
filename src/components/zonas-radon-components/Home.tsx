@@ -3,7 +3,7 @@
 const Home = () => {
     return (
         <div>
-            <div>
+            <div className="mb-[-125px]">
                 <div className="mb-[230px]">
                     <div className="text-center text-[#010D3D] font-black text-[44px] leading-tight mt-[100px] mb-[17px]">
                         <h1>Zonas de emisiones</h1>
@@ -28,7 +28,7 @@ const Home = () => {
                 />
 
             </div>
-            <div className="bg-gradient-to-br from-[#84DBF4] to-[#B8F2EA] h-[611px]"></div>
+            <div className="bg-gradient-to-br from-[#84DBF4] to-[#B8F2EA] h-[502px]"></div>
         </div>
     );
 };
