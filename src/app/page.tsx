@@ -101,3 +101,4 @@ export default function Home() {
     </div>
   );
 }
+// This is a Next.js app directory page component.a

@@ -4,8 +4,6 @@ import Script from "next/script"
 import "./globals.css";
 
 import { Mulish } from 'next/font/google';
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 const mulish = Mulish({
   subsets: ['latin'],
@@ -48,9 +46,7 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
-        <Header />
         {children}
-        <Footer />
       </body>
     </html>
   );
