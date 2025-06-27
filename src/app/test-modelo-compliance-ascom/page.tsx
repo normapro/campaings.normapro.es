@@ -17,7 +17,7 @@ export default function PageTestMadurezCumplimiento() {
     <div >
       <ModalFormulario visible={isModalOpen} onClose={handleCloseModal} />
       
-      {/* Hero */}
+      {/* Hero 
       <header className="bg-white  top-0 z-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-center ">
         <Link href="https://normapro.es" className="flex items-center justify-center">
@@ -30,9 +30,10 @@ export default function PageTestMadurezCumplimiento() {
             priority
           />
         </Link>
-        <h1 className="text-[45px] font-black">ASCROM</h1>
+        <h1 className="text-[45px] font-black">ASCOM</h1>
       </div>      
     </header>
+    */}
     <div className="absolute top-20 z-0 overflow-hidden w-full">
           <Image
             src="/hielo1.png"
@@ -46,140 +47,104 @@ export default function PageTestMadurezCumplimiento() {
             alt="Fondo del test de madurez de cumplimiento"
             width={306}
             height={412}
-            className="w-[500px] relative float-right mr-[-150px] mt-[150px] h-auto z-0"
+            className="w-[500px] relative float-right mr-[-150px] mt-[450px] h-auto z-0"
           />
       </div>
-      <div className="max-w-7xl mx-auto overflow-x-hidden">
-      <section >
-        <div className="z-1 relative text-center space-y-4 mt-10 mb-12 max-w-3xl mx-auto px-4 py-12 space-y-12 ">
-          <h1 className="text-[45px] font-black">
+      <div className="max-w-6xl mx-auto w-full">
+      <section className=" items-center justify-center text-center py-20 relative z-10">
+        <div className="z-1 relative text-left space-y-4 mt-10 space-y-12">
+          <h1 className="text-[45px] font-black max-w-3xl">
             ¿Está tu modelo de Compliance preparado para afrontar los retos tecnológicos?
           </h1>
-          <p className="text-[15px] font-bold text-[#010d3d50] px-18">
-            Un test–assessment para organizaciones que quieren conocer el nivel de preparación de su sistema de cumplimiento frente a los nuevos desafíos digitales.
-          </p>
-          <button onClick={handleOpenModal} className="bg-[#010d3d] text-white px-6 py-6 rounded-xl font-bold ">
-            Haz el test ahora
-          </button>
+          <div className='flex justify-center items-center w-full'>
+            <div className="flex-col">
+                <p className="text-[24px] font-bold text-[#010d3d] ">
+                  Una herramienta exclusiva presentada en el Congreso organizado por ASCOM para ayudarte a reflexionar, evaluar y avanzar con inteligencia.
+                </p>
+                 <p className="text-[18px] font-bold text-[#010d3d90] mt-10">
+                  Porque la transformación tecnológica no empieza con la tecnología… empieza con un modelo de Compliance sólido, trazable y alineado con el negocio.
+                </p>                
+            </div>
+          
+        
+          <div className="flex-col w-full mx-auto text-center">
+            <Image
+              src="/congreso-ascom.png"
+              alt="Fondo del test de madurez de cumplimiento"
+              width={400}
+              height={400}
+              className="rounded-xl h-[400px] w-[400px] mx-auto"
+            />
+          </div>
+          </div>
         </div>
         
       </section>
-
-      {/* ¿Qué es este test y para quién está pensado? */}
-    
-      <section className="flex w-full py-20">
-        <div className="col text-left pl-[5%] pr-[10%]">
-          <h2 className="text-[30px] font-black pr-[50%]">¿Qué es este test y para quién está pensado?</h2>
-          <p className="text-[17px] py-6 font-regular">
-            Este test ha sido diseñado para ayudar a empresarios, compliance officers, responsables de calidad, medio ambiente, PRL, dirección general y otros profesionales clave a identificar su punto de partida en la gestión del cumplimiento. 
-          </p>
-          <p className="text-[17px] py-2 font-regular">
-            En solo unos minutos, podrás visualizar tus puntos fuertes, detectar tus principales debilidades y empezar a definir una hoja de ruta hacia una gestión interna más eficiente, trazable y alineada con los objetivos del negocio.
-          </p>
+      <section className="pr-10">
+        <div>
+          <p className="text-[18px] font-bold text-[#010d3d90]">Este test ha sido diseñado específicamente para los profesionales que asistís al Congreso ASCOM "Compliance en la Actividad Empresarial 2025" con el objetivo de facilitar una reflexión estructurada sobre el estado de vuestro sistema de cumplimiento y su preparación para afrontar los desafíos tecnológicos.</p>
+          <p className="text-[18px] font-bold mt-8 text-[#010d3d]">No es una auditoría.<br></br>Es una herramienta de autodiagnóstico, práctica y orientada a la acción.</p>
         </div>
-        <div className="col w-full">
-          <div className="w-full bg-contain bg-no-repeat bg-center rounded-lg overflow-hidden bg-[url('/hielo2.png')]">
-          <Image
-            src="/IICE_LandingCompliancePenal_Nivel2_4.svg"
-            alt="Test de madurez de cumplimiento"
-            width={600}
-            height={400}
-            className="w-full h-auto px-[30%]"
+      </section>
+      <section className="pr-10 mt-20">
+        <div className="flex">
+          <div className="w-1/2 mx-auto text-center">
+            <div className="w-full bg-contain bg-no-repeat bg-center rounded-lg overflow-hidden bg-[url('/hielo2.png')] px-10 py-5 mx-auto ">
+            <Image
+              src="/imagenSeccion21.svg"
+              alt="Test de madurez de cumplimiento"
+              width={600}
+              height={400}
+              className="w-full h-auto px-[20%]"
 
-          />
+            />
+            </div>
           </div>
-        </div>
-      </section>
-    
-    
-      <section className="flex py-20 w-full">
-        <div className="col">
-          <div className="w-full bg-contain bg-no-repeat bg-center rounded-lg overflow-hidden bg-[url('/hielo2.png')]">
-          <Image
-            src="/IICE_LandingCompliancePenal_Nivel2_4.svg"
-            alt="Test de madurez de cumplimiento"
-            width={600}
-            height={400}
-            className="w-full h-auto px-[30%]"
-
-          />
+          
+          <div className="w-1/2">          
+            <h2 className="text-[30px] font-black">¿Qué encontrarás en este test?</h2>
+            <ul className="list-disc list-inside space-y-1 mt-10 list-none">
+              <li><span className="text-[#010d3d] mr-3 mt-1">✓</span> Evalúas tu nivel actual en 6 áreas clave del modelo de compliance</li>
+              <li><span className="text-[#010d3d] mr-3 mt-1">✓</span> Detectas puntos débiles y oportunidades de mejora</li>
+              <li><span className="text-[#010d3d] mr-3 mt-1">✓</span> Obtienes una hoja de ruta práctica para avanzar</li>
+              <li><span className="text-[#010d3d] mr-3 mt-1">✓</span> Conectas el cumplimiento con la eficiencia y la transformación digital</li>
+              <li><span className="text-[#010d3d] mr-3 mt-1">✓</span> Accedes a un contenido útil para compartir y debatir con tu equipo</li>
+            </ul>
           </div>
+          
+          
         </div>
-        <div className="col text-left">
-          <h2 className="text-[30px] font-black pr-[50%]">¿Qué vas a obtener con este test gratuito?</h2>
-          <ul className="list-disc list-inside space-y-1">
-            <li>Evaluación inmediata en 6 bloques clave</li>
-            <li>Tabla de resultados y niveles de madurez</li>
-            <li>Los riesgos que probablemente estás asumiendo</li>
-            <li>Las oportunidades de mejora que podrías activar</li>
-            <li>Y una orientación práctica para avanzar con enfoque y eficiencia</li>
-          </ul>
-        </div>      
+      </section>
 
-        
+      <section className='mt-20 w-full text-center'>
+           <Link href="/Test-Modelo-de-Compliance.pdf">
+           <button className="bg-[#010d3d] text-white px-4 py-4 rounded-xl font-bold mx-auto mt-15 cursor-pointer hover:bg-[#010d3d90] transition-colors duration-300">
+                  Descarga aquí el test completo en PDF
+            </button>
+            </Link>
+            <div className="flex text-left mt-20 mb-100">
+              <div className="w-[40%]">
+                <Image
+                  src="/jmgr.jpeg"
+                  alt="Juan Manuel Galdón Requena"
+                  width={600}
+                  height={600}
+                  className="rounded-xl mt-10 mx-auto w-[75%] h-auto"
+                />                
+              </div>
+              <div className="ml-10 mt-10 max-w-[60%]">
+                <h1 className="text-[30px] font-black mb-10">
+                  “El cumplimiento no es un obstáculo. Es el nuevo sistema operativo de las empresas que quieren competir en serio.”
+                </h1>
+                <p className="text-[18px] font-bold text-[#010d3d]">Juan Manuel Galdón Requena</p>
+                <p className="text-[16px] font-semibold text-[#010d3d90]">Ponente en el Congreso ASCOM 2025</p>
+                
+              </div>
+            </div>
+
       </section>
     
 
-      {/* ¿Por qué es importante medir? */}
-      {/* ¿Qué vas a obtener con este test gratuito? */}
-      <section className="space-y-4 max-w-4xl mx-auto px-4 py-12 space-y-8">
-        <h2 className="text-2xl font-semibold">¿Qué vas a obtener con este test gratuito?</h2>
-        <ul className="list-disc list-inside space-y-1">
-          <li>Evaluación inmediata en 10 bloques clave</li>
-          <li>Tabla de resultados y niveles de madurez</li>
-          <li>Recomendaciones personalizadas para cada nivel</li>
-          <li>Ideas para mejorar procesos y digitalizar con sentido</li>
-          <li>Documento descargable y compartible con tu equipo o dirección</li>
-        </ul>
-      </section>
-
-      {/* Formulario de descarga */}
-      <section className="space-y-4 text-center max-w-4xl mx-auto px-4 py-12 space-y-8">
-        <h2 className="text-2xl font-semibold">Formulario de descarga</h2>
-        <p>
-          Haz clic en el botón y accede a un breve formulario donde podrás completar tus datos. En menos de un minuto recibirás el test completo en tu correo.
-        </p>
-        <button onClick={handleOpenModal} className="bg-[#010d3d] text-white px-6 py-3 rounded font-semibold">
-          Quiero mi test ahora
-        </button>
-      </section>
-
-      {/* Confianza y credibilidad */}
-      <div className="bg-[#f9f9f9]">
-      <section className="space-y-4 max-w-4xl mx-auto px-4 py-12 space-y-8 text-center ">
-        <h2 className="text-2xl font-semibold">Confianza y credibilidad</h2>
-        <p>
-          Este test ha sido elaborado por expertos consultores del Instituto de Innovación, Ciencia y Empresa, que llevan más de veinte años dedicados a la implantación de sistemas de gestión y cumplimiento normativo en organizaciones de todos los tamaños y sectores.
-        </p>
-        <p>
-          Más que una herramienta, es el punto de partida para visualizar con claridad dónde estás y hacia dónde puedes avanzar.
-        </p>
-      </section>
-      </div>
-
-      {/* ¿Por qué NormaPro? */}
-
-      {/* Diagnóstico y enfoque */}
-      <section className="space-y-4 max-w-4xl mx-auto px-4 py-12 space-y-8 text-center">
-        <h2 className="text-2xl font-semibold">Un test. Un diagnóstico. Un nuevo enfoque.</h2>
-        <p>
-          Empieza por medir. Después, podrás decidir cómo avanzar.
-        </p>
-        <p>
-          Este test te ofrece claridad, dirección y enfoque. Y si descubres que hay margen de mejora, en NormaPro estamos listos para acompañarte con soluciones digitales que convierten el cumplimiento en una palanca real de eficiencia y crecimiento.
-        </p>
-      </section>
-
-      {/* Solicitar reunión personalizada */}
-      <section className="text-center space-y-4 max-w-4xl mx-auto px-4 py-12 space-y-10">
-        <h2 className="text-2xl font-semibold">¿Quieres avanzar con acompañamiento experto?</h2>
-        <p>
-          Agenda una reunión con nuestro equipo y te contaremos cómo ayudarte a interpretar tus resultados, priorizar acciones y avanzar hacia un modelo de cumplimiento más eficiente, trazable y alineado con tu realidad empresarial.
-        </p>
-        <button onClick={handleOpenModal} className="bg-[#010d3d] text-white px-6 py-3 rounded font-semibold">
-          Solicitar reunión personalizada
-        </button>
-      </section>
     </div>
     </div>
   );
