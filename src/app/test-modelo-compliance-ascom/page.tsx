@@ -117,7 +117,7 @@ export default function PageTestMadurezCumplimiento() {
       </section>
 
       <section className='mt-10 lg:mt-20 w-full text-center px-4'>
-           <Link href="/Test-Modelo-de-Compliance.pdf">
+           <Link href="https://api.danubio.normapro.es/apps/test-modelo-compliance-ascom/">
            <button className="bg-[#010d3d] text-white px-4 py-4 rounded-xl font-bold mx-auto cursor-pointer hover:bg-[#010d3d90] transition-colors duration-300 text-[14px] lg:text-[16px]">
                   Descarga aquí el test completo en PDF
             </button>
