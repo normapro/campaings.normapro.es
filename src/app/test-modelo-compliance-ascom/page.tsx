@@ -123,14 +123,17 @@ export default function PageTestMadurezCumplimiento() {
             </button>
             </Link>
             <div className="flex flex-col lg:flex-row text-left mt-10 lg:mt-20 mb-20 lg:mb-100 gap-8 lg:gap-0">
-              <div className="w-full lg:w-[40%] flex justify-center">
+              <div className="w-full lg:w-[40%] justify-center">
                 <Image
                   src="/jmgr.jpeg"
                   alt="Juan Manuel Galdón Requena"
                   width={600}
                   height={600}
                   className="rounded-xl mt-0 lg:mt-10 mx-auto w-[60%] lg:w-[75%] h-auto max-w-[300px]"
-                />                
+                /><br />
+                <p className="text-[14px] lg:text-[16px] font-semibold text-[#010d3d90] mt-4 text-center">
+                  juanmanuelgaldon@institutodeinnovacion.es
+                </p>                
               </div>
               <div className="lg:ml-10 mt-0 lg:mt-10 w-full lg:max-w-[60%]">
                 <h1 className="text-[20px] sm:text-[24px] lg:text-[30px] font-black mb-6 lg:mb-10 text-center lg:text-left">
