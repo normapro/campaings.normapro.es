@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Página: /src/app/compliance-digital/cuestionario/page.tsx (v2 – 7 áreas)
 // UI responsive, escala Likert 1–5, progreso, validación y POST a API.
@@ -454,7 +454,21 @@ const BAND_TEXT: Record<string, {
   },
 };
 
-// ===== Utilidades de puntuación =====
+
+interface Scores {
+  total: number;
+  byArea: Record<string, number>;
+  avgByArea: Record<string, number>;
+  overallAvg: number;
+}
+
+type ContactData = {
+  nombre: string;
+  apellidos: string;
+  empresa?: string;
+  email: string;
+};
+
 const getBandKey = (avg: number) => {
   if (avg >= 4.5) return 'green';
   if (avg >= 3.5) return 'yellow';
@@ -462,10 +476,23 @@ const getBandKey = (avg: number) => {
   return 'red';
 };
 
+// Colores y estilos por banda para remarcar visualmente
+const BAND_STYLES: Record<'red'|'orange'|'yellow'|'green', { bg: string; text: string; ring: string; pillBg: string; pillText: string; accent: string; }> = {
+  red:    { bg: 'bg-red-50',    text: 'text-red-800',    ring: 'ring-red-200',    pillBg: 'bg-red-600',    pillText: 'text-white', accent: 'bg-red-500' },
+  orange: { bg: 'bg-orange-50', text: 'text-orange-800', ring: 'ring-orange-200', pillBg: 'bg-orange-600', pillText: 'text-white', accent: 'bg-orange-500' },
+  yellow: { bg: 'bg-yellow-50', text: 'text-yellow-900', ring: 'ring-yellow-200', pillBg: 'bg-yellow-500', pillText: 'text-yellow-950', accent: 'bg-yellow-400' },
+  green:  { bg: 'bg-green-50',  text: 'text-green-900',  ring: 'ring-green-200',  pillBg: 'bg-green-600',  pillText: 'text-white', accent: 'bg-green-500' },
+};
+
 export default function CuestionarioComplianceDigitalV2() {
   const [answers, setAnswers] = useState<AnswerMap>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState<null | Scores>(null);
+
+  // Paso de contacto
+  const [showContact, setShowContact] = useState(false);
+  const [contact, setContact] = useState<ContactData>({ nombre: '', apellidos: '', email: '', empresa: '' });
+  const [contactErrors, setContactErrors] = useState<Partial<Record<keyof ContactData, string>>>({});
 
   const totalQuestions = useMemo(() => AREAS.reduce((acc, a) => acc + a.items.length, 0), []);
   const answeredCount = Object.keys(answers).length;
@@ -488,11 +515,33 @@ export default function CuestionarioComplianceDigitalV2() {
     return { total, byArea, avgByArea, overallAvg };
   };
 
-  const onSubmit = async () => {
+  const validateContact = (data: ContactData) => {
+    const errs: Partial<Record<keyof ContactData, string>> = {};
+    if (!data.nombre?.trim()) errs.nombre = 'El nombre es obligatorio.';
+    if (!data.apellidos?.trim()) errs.apellidos = 'Los apellidos son obligatorios.';
+    if (!data.email?.trim()) errs.email = 'El email es obligatorio.';
+    else {
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email);
+      if (!emailOk) errs.email = 'Introduce un email válido.';
+    }
+    return errs;
+  };
+
+  // 1) Click en CTA principal: si faltan respuestas, avisamos; si está todo, abrimos modal de contacto
+  const prepareSubmit = () => {
     if (answeredCount !== totalQuestions) {
       alert('Por favor, responde todas las preguntas antes de continuar.');
       return;
     }
+    setShowContact(true);
+  };
+
+  // 2) Confirmar datos de contacto en modal y enviar
+  const confirmAndSubmit = async () => {
+    const errs = validateContact(contact);
+    setContactErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+
     setSubmitting(true);
     const scores = computeScores();
 
@@ -504,9 +553,16 @@ export default function CuestionarioComplianceDigitalV2() {
           cuestionario: 'departamento_juridico_v2',
           respuestas: answers,
           resultados: scores,
+          contacto: {
+            nombre: contact.nombre,
+            apellidos: contact.apellidos,
+            empresa: contact.empresa || null,
+            email: contact.email,
+          },
         }),
       });
       setSubmitted(scores);
+      setShowContact(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e) {
       console.error(e);
@@ -532,26 +588,81 @@ export default function CuestionarioComplianceDigitalV2() {
               const band = getBandKey(avg) as keyof typeof BAND_TEXT['a1'];
               const texts = BAND_TEXT[a.key][band];
 
-              return (
-                <div key={a.key} className="rounded-lg border p-4 bg-white">
-                  <div className="flex items-start justify-between gap-4 flex-wrap">
-                    <div>
-                      <h2 className="text-lg sm:text-xl font-bold">{a.title}</h2>
-                      {a.goal && <p className="text-sm text-gray-600 mt-1">{a.goal}</p>}
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-gray-500">Media</p>
-                      <p className="text-2xl font-extrabold">{avg}</p>
-                    </div>
-                  </div>
+              const colors = BAND_STYLES[band];
 
-                  <div className="mt-3">
-                    <span className="font-semibold">{texts.title}</span>
-                    <p className="mt-1 text-gray-700">{texts.body}</p>
+              return (
+                <div
+                  key={a.key}
+                  className={`relative rounded-xl border p-0 bg-white ring-1 ${colors.ring} overflow-hidden`}
+                >
+                  {/* Barra de acento a la izquierda */}
+                  <div className={`absolute left-0 top-0 h-full w-1.5 ${colors.accent}`} />
+
+                  <div className="p-4 sm:p-5">
+                    <div className="flex items-start justify-between gap-4 flex-wrap">
+                      <div>
+                        <h2 className="text-lg sm:text-xl font-bold">{a.title}</h2>
+                        {a.goal && <p className="text-sm text-gray-600 mt-1">{a.goal}</p>}
+                      </div>
+
+                      {/* Badge XL con color y media */}
+                      <div className="text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <span
+                            className={`inline-flex items-center rounded-full px-3 py-1.5 text-xs sm:text-sm font-semibold ${colors.pillBg} ${colors.pillText}`}
+                            title={`Media en esta área: ${avg}`}
+                          >
+                            {band === 'red' && '🔴'}{band === 'orange' && '🟠'}{band === 'yellow' && '🟡'}{band === 'green' && '🟢'}
+                            <span className="ml-2 uppercase tracking-wide">Franja {texts.title}</span>
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-2">Media</p>
+                        <p className="text-3xl font-extrabold">{avg}</p>
+                      </div>
+                    </div>
+
+                    {/* Bloque principal destacado por color */}
+                    <div className={`mt-4 rounded-lg p-4 ${colors.bg} ${colors.text}`}>
+                      <div className="text-base sm:text-lg font-extrabold mb-1">{texts.title}</div>
+                      <p className="text-sm sm:text-base font-medium">{texts.body}</p>
+                    </div>
+
+                    {/* Recomendaciones */}
                     {texts.recs?.length > 0 && (
-                      <ul className="mt-2 list-disc list-inside text-gray-700 space-y-1">
-                        {texts.recs.map((r, i) => <li key={i}>{r}</li>)}
-                      </ul>
+                      <div className="mt-4">
+                        <h3 className="font-semibold">Recomendaciones prioritarias</h3>
+                        <ul className="mt-2 list-disc list-inside text-gray-700 space-y-1">
+                          {texts.recs.map((r, i) => <li key={i}>{r}</li>)}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* NUEVOS BLOQUES: Riesgos, Oportunidades, Fortalezas */}
+                    {Array.isArray(texts.riesgos) && texts.riesgos.length > 0 && (
+                      <div className="mt-4">
+                        <h4 className="font-semibold text-red-700">Riesgos si no se actúa</h4>
+                        <ul className="mt-2 list-disc list-inside text-gray-700 space-y-1">
+                          {texts.riesgos.map((r, i) => <li key={i}>{r}</li>)}
+                        </ul>
+                      </div>
+                    )}
+
+                    {Array.isArray(texts.oportunidades) && texts.oportunidades.length > 0 && (
+                      <div className="mt-4">
+                        <h4 className="font-semibold text-orange-700">Oportunidades</h4>
+                        <ul className="mt-2 list-disc list-inside text-gray-700 space-y-1">
+                          {texts.oportunidades.map((r, i) => <li key={i}>{r}</li>)}
+                        </ul>
+                      </div>
+                    )}
+
+                    {Array.isArray(texts.fortalezas) && texts.fortalezas.length > 0 && (
+                      <div className="mt-4">
+                        <h4 className="font-semibold text-green-700">Fortalezas detectadas</h4>
+                        <ul className="mt-2 list-disc list-inside text-gray-700 space-y-1">
+                          {texts.fortalezas.map((r, i) => <li key={i}>{r}</li>)}
+                        </ul>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -598,7 +709,7 @@ export default function CuestionarioComplianceDigitalV2() {
       <div className="space-y-10">
         {AREAS.map((area) => (
           <section key={area.key} className="space-y-4">
-            <h2 className="text-xl sm:text-2xl font-bold">{area.title}</h2>
+            <h2 className="text-xl sm:text-2xl font-bold" id={`sec-${area.key}`}>{area.title}</h2>
             {area.goal && <p className="text-gray-600">{area.goal}</p>}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -610,7 +721,10 @@ export default function CuestionarioComplianceDigitalV2() {
                     <p className="font-medium mb-3">{label}</p>
                     <div className="flex items-center justify-between gap-2">
                       {[1, 2, 3, 4, 5].map((n) => (
-                        <label key={n} className={`flex flex-col items-center text-sm cursor-pointer select-none ${selected === n ? 'font-bold' : ''}`}>
+                        <label
+                          key={n}
+                          className={`flex flex-col items-center text-sm cursor-pointer select-none ${selected === n ? 'font-bold' : ''}`}
+                        >
                           <input
                             type="radio"
                             name={qKey}
@@ -619,7 +733,11 @@ export default function CuestionarioComplianceDigitalV2() {
                             onChange={() => setAnswer(qKey, n)}
                             className="peer sr-only"
                           />
-                          <span className={`w-9 h-9 flex items-center justify-center rounded-full border transition ${selected === n ? 'bg-[#010d3d] text-white border-[#010d3d]' : 'border-gray-300 text-gray-700 hover:border-[#010d3d]'}`}>{n}</span>
+                          <span
+                            className={`w-9 h-9 flex items-center justify-center rounded-full border transition ${selected === n ? 'bg-[#010d3d] text-white border-[#010d3d]' : 'border-gray-300 text-gray-700 hover:border-[#010d3d]'}`}
+                          >
+                            {n}
+                          </span>
                         </label>
                       ))}
                     </div>
@@ -636,7 +754,7 @@ export default function CuestionarioComplianceDigitalV2() {
         <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm text-gray-600">Revisa tus respuestas y envía para ver tu puntuación y diagnóstico por área.</p>
           <button
-            onClick={onSubmit}
+            onClick={prepareSubmit}
             disabled={submitting}
             className="inline-flex items-center justify-center rounded-lg bg-[#010d3d] px-6 py-3 text-white font-semibold disabled:opacity-60"
           >
@@ -644,6 +762,79 @@ export default function CuestionarioComplianceDigitalV2() {
           </button>
         </div>
       </div>
+
+      {/* MODAL: Datos de contacto */}
+      {showContact && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
+            <h3 className="text-xl font-extrabold">Antes de mostrar tus conclusiones…</h3>
+            <p className="text-sm text-gray-600 mt-1">
+              Por favor, indícanos tus datos básicos. <span className="font-medium">Nombre</span>, <span className="font-medium">Apellidos</span> y <span className="font-medium">Email</span> son obligatorios.
+            </p>
+
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-1">
+                <label className="text-sm font-medium">Nombre *</label>
+                <input
+                  className={`mt-1 w-full rounded-lg border px-3 py-2 ${contactErrors.nombre ? 'border-red-500' : 'border-gray-300'}`}
+                  value={contact.nombre}
+                  onChange={(e) => setContact({ ...contact, nombre: e.target.value })}
+                  placeholder="Tu nombre"
+                />
+                {contactErrors.nombre && <p className="text-xs text-red-600 mt-1">{contactErrors.nombre}</p>}
+              </div>
+              <div className="sm:col-span-1">
+                <label className="text-sm font-medium">Apellidos *</label>
+                <input
+                  className={`mt-1 w-full rounded-lg border px-3 py-2 ${contactErrors.apellidos ? 'border-red-500' : 'border-gray-300'}`}
+                  value={contact.apellidos}
+                  onChange={(e) => setContact({ ...contact, apellidos: e.target.value })}
+                  placeholder="Tus apellidos"
+                />
+                {contactErrors.apellidos && <p className="text-xs text-red-600 mt-1">{contactErrors.apellidos}</p>}
+              </div>
+              <div className="sm:col-span-1">
+                <label className="text-sm font-medium">Empresa (opcional)</label>
+                <input
+                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+                  value={contact.empresa}
+                  onChange={(e) => setContact({ ...contact, empresa: e.target.value })}
+                  placeholder="Nombre de la empresa"
+                />
+              </div>
+              <div className="sm:col-span-1">
+                <label className="text-sm font-medium">Email *</label>
+                <input
+                  type="email"
+                  className={`mt-1 w-full rounded-lg border px-3 py-2 ${contactErrors.email ? 'border-red-500' : 'border-gray-300'}`}
+                  value={contact.email}
+                  onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                  placeholder="tucorreo@empresa.com"
+                />
+                {contactErrors.email && <p className="text-xs text-red-600 mt-1">{contactErrors.email}</p>}
+              </div>
+            </div>
+
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button
+                onClick={() => setShowContact(false)}
+                className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-4 py-2 font-semibold"
+                disabled={submitting}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmAndSubmit}
+                disabled={submitting}
+                className="inline-flex items-center justify-center rounded-lg bg-[#010d3d] px-5 py-2.5 text-white font-semibold disabled:opacity-60"
+              >
+                {submitting ? 'Enviando…' : 'Ver mis conclusiones'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
