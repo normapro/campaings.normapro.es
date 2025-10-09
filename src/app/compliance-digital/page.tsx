@@ -768,9 +768,7 @@ export default function CuestionarioComplianceDigitalV2() {
             <a href="/compliance-digital" className="inline-flex items-center justify-center rounded-lg bg-[#010d3d] px-5 py-3 text-white font-semibold">
               Volver a la landing
             </a>
-            <a href="https://normapro.es/contacto" className="inline-flex items-center justify-center rounded-lg border border-[#010d3d] px-5 py-3 text-[#010d3d] font-semibold">
-              Solicitar reunión personalizada
-            </a>
+         
           </div>
         </div>
       </div>
