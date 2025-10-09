@@ -709,7 +709,7 @@ export default function CuestionarioComplianceDigitalV2() {
                             title={`Media en esta área: ${avg}`}
                           >
                             {band === 'red' && '🔴'}{band === 'orange' && '🟠'}{band === 'yellow' && '🟡'}{band === 'green' && '🟢'}
-                            <span className="ml-2 uppercase tracking-wide">Franja</span>
+                            <span className="ml-2 uppercase tracking-wide">Franja {texts.title}</span>
                           </span>
                         </div>
                         <p className="text-xs text-gray-500 mt-2">Media</p>
