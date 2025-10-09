@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 // Cada área tiene 6 ítems. Se calcula la media por área y se mapea a 4 niveles (🔴🟠🟡🟢) con mensajes personalizados.
 
 // ===== Tipado =====
-interface AnswerMap { [key: string]: number }
+
 interface Scores { total: number; byArea: Record<string, number>; avgByArea: Record<string, number>; overallAvg: number }
 
 // ===== Catálogo de Áreas (7) + Ítems (6 cada una) =====
