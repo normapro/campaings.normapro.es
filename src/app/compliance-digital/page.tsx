@@ -453,21 +453,14 @@ const BAND_TEXT: Record<string, {
     },
   },
 };
-
-
+interface AnswerMap { [key: string]: number }
 interface Scores {
   total: number;
   byArea: Record<string, number>;
   avgByArea: Record<string, number>;
   overallAvg: number;
 }
-
-type ContactData = {
-  nombre: string;
-  apellidos: string;
-  empresa?: string;
-  email: string;
-};
+type ContactData = { nombre: string; apellidos: string; empresa?: string; email: string };
 
 const getBandKey = (avg: number) => {
   if (avg >= 4.5) return 'green';
@@ -476,7 +469,7 @@ const getBandKey = (avg: number) => {
   return 'red';
 };
 
-// Colores y estilos por banda para remarcar visualmente
+// Estilos por banda para remarcar visualmente
 const BAND_STYLES: Record<'red'|'orange'|'yellow'|'green', { bg: string; text: string; ring: string; pillBg: string; pillText: string; accent: string; }> = {
   red:    { bg: 'bg-red-50',    text: 'text-red-800',    ring: 'ring-red-200',    pillBg: 'bg-red-600',    pillText: 'text-white', accent: 'bg-red-500' },
   orange: { bg: 'bg-orange-50', text: 'text-orange-800', ring: 'ring-orange-200', pillBg: 'bg-orange-600', pillText: 'text-white', accent: 'bg-orange-500' },
@@ -484,23 +477,83 @@ const BAND_STYLES: Record<'red'|'orange'|'yellow'|'green', { bg: string; text: s
   green:  { bg: 'bg-green-50',  text: 'text-green-900',  ring: 'ring-green-200',  pillBg: 'bg-green-600',  pillText: 'text-white', accent: 'bg-green-500' },
 };
 
+// --- helpers persistencia ---
+const LS_ANSWERS = 'cdv2.answers';
+const LS_CONTACT = 'cdv2.contact';
+
+const safeJSON = {
+  parse: <T,>(s: string | null, fallback: T): T => {
+    try { return s ? JSON.parse(s) as T : fallback; } catch { return fallback; }
+  },
+  stringify: (obj: unknown) => {
+    try { return JSON.stringify(obj); } catch { return ''; }
+  }
+};
+
+// --- analytics (opcional, no rompe si no existe dataLayer) ---
+const pushAnalytics = (event: string, payload: Record<string, unknown> = {}) => {
+  try {
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push({ event, ...payload });
+  } catch {}
+};
+
+// --- fetch con reintentos exponenciales ---
+async function fetchWithRetry(input: RequestInfo, init: RequestInit, retries = 3, baseDelay = 500): Promise<Response> {
+  let lastErr: any = null;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(input, init);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res;
+    } catch (e) {
+      lastErr = e;
+      if (attempt === retries) break;
+      await new Promise(r => setTimeout(r, baseDelay * Math.pow(2, attempt)));
+    }
+  }
+  throw lastErr;
+}
+
 export default function CuestionarioComplianceDigitalV2() {
-  const [answers, setAnswers] = useState<AnswerMap>({});
+  const [answers, setAnswers] = useState<AnswerMap>(() => safeJSON.parse<AnswerMap>(typeof window !== 'undefined' ? localStorage.getItem(LS_ANSWERS) : null, {}));
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState<null | Scores>(null);
 
   // Paso de contacto
   const [showContact, setShowContact] = useState(false);
-  const [contact, setContact] = useState<ContactData>({ nombre: '', apellidos: '', email: '', empresa: '' });
+  const [contact, setContact] = useState<ContactData>(() =>
+    safeJSON.parse<ContactData>(typeof window !== 'undefined' ? localStorage.getItem(LS_CONTACT) : null, { nombre: '', apellidos: '', email: '', empresa: '' })
+  );
   const [contactErrors, setContactErrors] = useState<Partial<Record<keyof ContactData, string>>>({});
+
+  // Validación UX
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
+
+  // Refs para navegación a “siguiente sin contestar”
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const totalQuestions = useMemo(() => AREAS.reduce((acc, a) => acc + a.items.length, 0), []);
   const answeredCount = Object.keys(answers).length;
   const progressPct = Math.round((answeredCount / totalQuestions) * 100);
 
-  const setAnswer = (key: string, value: number) => setAnswers((p) => ({ ...p, [key]: value }));
+  // Persistencia
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem(LS_ANSWERS, safeJSON.stringify(answers));
+  }, [answers]);
 
-  const computeScores = (): Scores => {
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem(LS_CONTACT, safeJSON.stringify(contact));
+  }, [contact]);
+
+  const setAnswer = useCallback((key: string, value: number) => {
+    setAnswers((p) => ({ ...p, [key]: value }));
+  }, []);
+
+  // Cálculo de puntuaciones (completo)
+  const computeScores = useCallback((): Scores => {
     const byArea: Record<string, number> = {};
     const avgByArea: Record<string, number> = {};
 
@@ -513,8 +566,38 @@ export default function CuestionarioComplianceDigitalV2() {
     const total = Object.values(byArea).reduce((acc, n) => acc + n, 0);
     const overallAvg = parseFloat((total / totalQuestions).toFixed(2));
     return { total, byArea, avgByArea, overallAvg };
+  }, [answers, totalQuestions]);
+
+  // Cálculo parcial (para resumen lateral en tiempo real)
+  const partialAvgByArea = useMemo(() => {
+    const out: Record<string, number | null> = {};
+    AREAS.forEach((a) => {
+      const vals = a.items.map((_q, i) => answers[`${a.key}.${i}`]).filter(Boolean) as number[];
+      out[a.key] = vals.length ? parseFloat((vals.reduce((s, n) => s + n, 0) / vals.length).toFixed(2)) : null;
+    });
+    return out;
+  }, [answers]);
+
+  // Unanswered keys para resaltado y navegación
+  const unansweredKeys = useMemo(() => {
+    const list: string[] = [];
+    AREAS.forEach((a) => {
+      a.items.forEach((_q, i) => {
+        const k = `${a.key}.${i}`;
+        if (!answers[k]) list.push(k);
+      });
+    });
+    return list;
+  }, [answers]);
+
+  const scrollToKey = (k?: string) => {
+    if (!k) return;
+    const el = cardRefs.current[k];
+    if (el?.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el?.focus?.();
   };
 
+  // Validación contacto
   const validateContact = (data: ContactData) => {
     const errs: Partial<Record<keyof ContactData, string>> = {};
     if (!data.nombre?.trim()) errs.nombre = 'El nombre es obligatorio.';
@@ -527,16 +610,18 @@ export default function CuestionarioComplianceDigitalV2() {
     return errs;
   };
 
-  // 1) Click en CTA principal: si faltan respuestas, avisamos; si está todo, abrimos modal de contacto
+  // 1) Click CTA principal
   const prepareSubmit = () => {
+    setAttemptedSubmit(true);
     if (answeredCount !== totalQuestions) {
-      alert('Por favor, responde todas las preguntas antes de continuar.');
+      // Ir al primero sin contestar
+      scrollToKey(unansweredKeys[0]);
       return;
     }
     setShowContact(true);
   };
 
-  // 2) Confirmar datos de contacto en modal y enviar
+  // 2) Confirmar datos + enviar
   const confirmAndSubmit = async () => {
     const errs = validateContact(contact);
     setContactErrors(errs);
@@ -545,28 +630,39 @@ export default function CuestionarioComplianceDigitalV2() {
     setSubmitting(true);
     const scores = computeScores();
 
+    const payload = {
+      cuestionario: 'departamento_juridico_v2',
+      respuestas: answers,
+      resultados: scores,
+      contacto: {
+        nombre: contact.nombre,
+        apellidos: contact.apellidos,
+        empresa: contact.empresa || null,
+        email: contact.email,
+      },
+      meta: {
+        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+        ts: new Date().toISOString(),
+        uuid: (typeof crypto !== 'undefined' && 'randomUUID' in crypto) ? (crypto as any).randomUUID() : `cdv2-${Math.random().toString(36).slice(2)}`,
+      },
+    };
+
     try {
-      await fetch('https://api-campaigns.normapro.es/cuestionarios/juridico-v2', {
+      pushAnalytics('cdv2_submit_attempt', { overallAvg: scores.overallAvg });
+      await fetchWithRetry('https://api-campaigns.normapro.es/cuestionarios/juridico-v2', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          cuestionario: 'departamento_juridico_v2',
-          respuestas: answers,
-          resultados: scores,
-          contacto: {
-            nombre: contact.nombre,
-            apellidos: contact.apellidos,
-            empresa: contact.empresa || null,
-            email: contact.email,
-          },
-        }),
-      });
+        body: JSON.stringify(payload),
+      }, 3, 600);
+
       setSubmitted(scores);
       setShowContact(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      pushAnalytics('cdv2_submit_success', { overallAvg: scores.overallAvg });
     } catch (e) {
       console.error(e);
       alert('No se pudo enviar el cuestionario. Inténtalo de nuevo.');
+      pushAnalytics('cdv2_submit_error', {});
     } finally {
       setSubmitting(false);
     }
@@ -575,7 +671,7 @@ export default function CuestionarioComplianceDigitalV2() {
   // ===== Vista de resultados =====
   if (submitted) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-10">
+      <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="rounded-xl border border-gray-200 shadow-sm p-6 bg-white">
           <h1 className="text-2xl font-extrabold">Resultado del autodiagnóstico</h1>
           <p className="mt-2 text-gray-700">
@@ -587,12 +683,12 @@ export default function CuestionarioComplianceDigitalV2() {
               const avg = submitted.avgByArea[a.key];
               const band = getBandKey(avg) as keyof typeof BAND_TEXT['a1'];
               const texts = BAND_TEXT[a.key][band];
-
               const colors = BAND_STYLES[band];
 
               return (
-                <div
+                <section
                   key={a.key}
+                  aria-labelledby={`res-${a.key}`}
                   className={`relative rounded-xl border p-0 bg-white ring-1 ${colors.ring} overflow-hidden`}
                 >
                   {/* Barra de acento a la izquierda */}
@@ -601,7 +697,7 @@ export default function CuestionarioComplianceDigitalV2() {
                   <div className="p-4 sm:p-5">
                     <div className="flex items-start justify-between gap-4 flex-wrap">
                       <div>
-                        <h2 className="text-lg sm:text-xl font-bold">{a.title}</h2>
+                        <h2 id={`res-${a.key}`} className="text-lg sm:text-xl font-bold">{a.title}</h2>
                         {a.goal && <p className="text-sm text-gray-600 mt-1">{a.goal}</p>}
                       </div>
 
@@ -613,7 +709,7 @@ export default function CuestionarioComplianceDigitalV2() {
                             title={`Media en esta área: ${avg}`}
                           >
                             {band === 'red' && '🔴'}{band === 'orange' && '🟠'}{band === 'yellow' && '🟡'}{band === 'green' && '🟢'}
-                            <span className="ml-2 uppercase tracking-wide">Franja {texts.title}</span>
+                            <span className="ml-2 uppercase tracking-wide">Franja</span>
                           </span>
                         </div>
                         <p className="text-xs text-gray-500 mt-2">Media</p>
@@ -637,7 +733,7 @@ export default function CuestionarioComplianceDigitalV2() {
                       </div>
                     )}
 
-                    {/* NUEVOS BLOQUES: Riesgos, Oportunidades, Fortalezas */}
+                    {/* Riesgos, Oportunidades, Fortalezas */}
                     {Array.isArray(texts.riesgos) && texts.riesgos.length > 0 && (
                       <div className="mt-4">
                         <h4 className="font-semibold text-red-700">Riesgos si no se actúa</h4>
@@ -646,7 +742,6 @@ export default function CuestionarioComplianceDigitalV2() {
                         </ul>
                       </div>
                     )}
-
                     {Array.isArray(texts.oportunidades) && texts.oportunidades.length > 0 && (
                       <div className="mt-4">
                         <h4 className="font-semibold text-orange-700">Oportunidades</h4>
@@ -655,7 +750,6 @@ export default function CuestionarioComplianceDigitalV2() {
                         </ul>
                       </div>
                     )}
-
                     {Array.isArray(texts.fortalezas) && texts.fortalezas.length > 0 && (
                       <div className="mt-4">
                         <h4 className="font-semibold text-green-700">Fortalezas detectadas</h4>
@@ -665,7 +759,7 @@ export default function CuestionarioComplianceDigitalV2() {
                       </div>
                     )}
                   </div>
-                </div>
+                </section>
               );
             })}
           </div>
@@ -685,82 +779,172 @@ export default function CuestionarioComplianceDigitalV2() {
 
   // ===== Vista del cuestionario =====
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      {/* Encabezado */}
-      <header className="mb-6">
-        <h1 className="text-2xl sm:text-3xl font-extrabold">Test de Autodiagnóstico — Departamento Jurídico</h1>
-        <p className="mt-2 text-gray-600">
-          Puntúa del 1 al 5 cada afirmación (1 = Nada cierto · 5 = Totalmente cierto). Responde con sinceridad para obtener un resultado útil.
-        </p>
-      </header>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Columna principal */}
+        <div className="lg:col-span-8">
+          {/* Encabezado */}
+          <header className="mb-6">
+            <h1 className="text-2xl sm:text-3xl font-extrabold">Test de Autodiagnóstico — Departamento Jurídico</h1>
+            <p className="mt-2 text-gray-600">
+              Puntúa del 1 al 5 cada afirmación (1 = Nada cierto · 5 = Totalmente cierto). Responde con sinceridad para obtener un resultado útil.
+            </p>
+          </header>
 
-      {/* Progreso */}
-      <div className="mb-8">
-        <div className="flex justify-between text-sm mb-1">
-          <span>{answeredCount} / {totalQuestions} respondidas</span>
-          <span>{progressPct}%</span>
-        </div>
-        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-          <div className="h-full bg-[#010d3d]" style={{ width: `${progressPct}%` }} />
-        </div>
-      </div>
-
-      {/* Áreas */}
-      <div className="space-y-10">
-        {AREAS.map((area) => (
-          <section key={area.key} className="space-y-4">
-            <h2 className="text-xl sm:text-2xl font-bold" id={`sec-${area.key}`}>{area.title}</h2>
-            {area.goal && <p className="text-gray-600">{area.goal}</p>}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {area.items.map((label, idx) => {
-                const qKey = `${area.key}.${idx}`;
-                const selected = answers[qKey] || 0;
-                return (
-                  <div key={qKey} className="rounded-lg border p-4 bg-white">
-                    <p className="font-medium mb-3">{label}</p>
-                    <div className="flex items-center justify-between gap-2">
-                      {[1, 2, 3, 4, 5].map((n) => (
-                        <label
-                          key={n}
-                          className={`flex flex-col items-center text-sm cursor-pointer select-none ${selected === n ? 'font-bold' : ''}`}
-                        >
-                          <input
-                            type="radio"
-                            name={qKey}
-                            value={n}
-                            checked={selected === n}
-                            onChange={() => setAnswer(qKey, n)}
-                            className="peer sr-only"
-                          />
-                          <span
-                            className={`w-9 h-9 flex items-center justify-center rounded-full border transition ${selected === n ? 'bg-[#010d3d] text-white border-[#010d3d]' : 'border-gray-300 text-gray-700 hover:border-[#010d3d]'}`}
-                          >
-                            {n}
-                          </span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
+          {/* Progreso (animado) */}
+          <div className="mb-8">
+            <div className="flex justify-between text-sm mb-1">
+              <span>{answeredCount} / {totalQuestions} respondidas</span>
+              <span>{progressPct}%</span>
             </div>
-          </section>
-        ))}
-      </div>
+            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#010d3d] transition-[width] duration-500 ease-out"
+                style={{ width: `${progressPct}%` }}
+              />
+            </div>
+            {attemptedSubmit && unansweredKeys.length > 0 && (
+              <div className="mt-2 text-sm text-red-700">
+                Te faltan {unansweredKeys.length} preguntas por responder.
+                <button
+                  onClick={() => scrollToKey(unansweredKeys[0])}
+                  className="ml-2 underline font-semibold"
+                >
+                  Ir a la siguiente sin contestar
+                </button>
+              </div>
+            )}
+          </div>
 
-      {/* CTA Enviar */}
-      <div className="sticky bottom-0 left-0 right-0 mt-10 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-t">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm text-gray-600">Revisa tus respuestas y envía para ver tu puntuación y diagnóstico por área.</p>
-          <button
-            onClick={prepareSubmit}
-            disabled={submitting}
-            className="inline-flex items-center justify-center rounded-lg bg-[#010d3d] px-6 py-3 text-white font-semibold disabled:opacity-60"
-          >
-            {submitting ? 'Enviando…' : 'Ver mi resultado'}
-          </button>
+          {/* Áreas (accesibles con fieldset/legend) */}
+          <div className="space-y-10">
+            {AREAS.map((area) => (
+              <section key={area.key} className="space-y-4" aria-labelledby={`sec-${area.key}`}>
+                <h2 className="text-xl sm:text-2xl font-bold" id={`sec-${area.key}`}>{area.title}</h2>
+                {area.goal && <p className="text-gray-600">{area.goal}</p>}
+
+                <fieldset aria-describedby={`desc-${area.key}`}>
+                  <legend className="sr-only">{area.title}</legend>
+                  <p id={`desc-${area.key}`} className="sr-only">
+                    Escala de 1 a 5 para cada afirmación (1 = nada cierto, 5 = totalmente cierto).
+                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {area.items.map((label, idx) => {
+                      const qKey = `${area.key}.${idx}`;
+                      const selected = answers[qKey] || 0;
+                      const isError = attemptedSubmit && !selected;
+
+                      return (
+                        <div
+                          key={qKey}
+                          ref={(el) => { cardRefs.current[qKey] = el; }}
+                          tabIndex={0}
+                          role="group"
+                          aria-labelledby={`lbl-${qKey}`}
+                          onKeyDown={(e) => {
+                            // Atajos 1..5
+                            const n = Number(e.key);
+                            if (n >= 1 && n <= 5) {
+                              e.preventDefault();
+                              setAnswer(qKey, n);
+                            }
+                          }}
+                          className={`rounded-lg border p-4 bg-white outline-none focus:ring-2 focus:ring-[#010d3d] ${isError ? 'border-red-400 ring-1 ring-red-200' : 'border-gray-200'}`}
+                        >
+                          <p id={`lbl-${qKey}`} className="font-medium mb-3">{label}</p>
+                          <div className="flex items-center justify-between gap-2">
+                            {[1, 2, 3, 4, 5].map((n) => (
+                              <label
+                                key={n}
+                                className={`flex flex-col items-center text-sm cursor-pointer select-none ${selected === n ? 'font-bold' : ''}`}
+                              >
+                                <input
+                                  type="radio"
+                                  name={qKey}
+                                  value={n}
+                                  checked={selected === n}
+                                  onChange={() => setAnswer(qKey, n)}
+                                  className="peer sr-only"
+                                  aria-checked={selected === n}
+                                  aria-label={`${n} sobre 5`}
+                                />
+                                <span
+                                  className={`w-9 h-9 flex items-center justify-center rounded-full border transition ${selected === n ? 'bg-[#010d3d] text-white border-[#010d3d]' : 'border-gray-300 text-gray-700 hover:border-[#010d3d]'}`}
+                                >
+                                  {n}
+                                </span>
+                              </label>
+                            ))}
+                          </div>
+                          {isError && <p className="mt-2 text-xs text-red-600">Esta pregunta es obligatoria.</p>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </fieldset>
+              </section>
+            ))}
+          </div>
+
+          {/* CTA Enviar */}
+          <div className="sticky bottom-0 left-0 right-0 mt-10 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-t">
+            <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <p className="text-sm text-gray-600">Revisa tus respuestas y envía para ver tu puntuación y diagnóstico por área.</p>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => scrollToKey(unansweredKeys[0])}
+                  className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-4 py-2 font-semibold"
+                >
+                  Ir a la siguiente sin contestar
+                </button>
+                <button
+                  onClick={prepareSubmit}
+                  disabled={submitting}
+                  className="inline-flex items-center justify-center rounded-lg bg-[#010d3d] px-6 py-3 text-white font-semibold disabled:opacity-60"
+                >
+                  {submitting ? 'Enviando…' : 'Ver mi resultado'}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Resumen lateral en tiempo real */}
+        <aside className="lg:col-span-4">
+          <div className="lg:sticky lg:top-6 space-y-4">
+            <div className="rounded-xl border border-gray-200 bg-white p-4">
+              <h3 className="text-base font-bold">Resumen por áreas</h3>
+              <p className="text-sm text-gray-600">Se actualiza en tiempo real según tus respuestas.</p>
+              <ul className="mt-3 space-y-2">
+                {AREAS.map((a) => {
+                  const val = partialAvgByArea[a.key];
+                  const band = val != null ? getBandKey(val) as keyof typeof BAND_TEXT['a1'] : null;
+                  const colors = band ? BAND_STYLES[band] : null;
+                  return (
+                    <li key={a.key} className="flex items-center justify-between gap-3">
+                      <span className="text-sm">{a.title.replace(/Área \d+\.\s*/, 'Área ')}</span>
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${colors ? `${colors.pillBg} ${colors.pillText}` : 'bg-gray-200 text-gray-700'}`}>
+                        {val == null ? '—' : val}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <div className="rounded-xl border border-gray-200 bg-white p-4">
+              <h3 className="text-base font-bold">Progreso</h3>
+              <div className="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#010d3d] transition-[width] duration-500 ease-out"
+                  style={{ width: `${progressPct}%` }}
+                />
+              </div>
+              <p className="mt-1 text-sm text-gray-600">{answeredCount}/{totalQuestions} respondidas</p>
+            </div>
+          </div>
+        </aside>
       </div>
 
       {/* MODAL: Datos de contacto */}
