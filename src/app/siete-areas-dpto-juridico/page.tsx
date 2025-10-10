@@ -56,12 +56,14 @@ export default function SieteAreasDptoJuridico() {
           </p>
 
           <div className="mt-10">
+            {/*}
             <Link
               href="https://campaigns.normapro.es/compliance-digital"
               className="inline-flex items-center rounded-xl bg-[#0a1535] px-6 sm:px-8 py-3 sm:py-4 text-white font-semibold shadow-lg hover:shadow-xl transition"
             >
               Haz el test ahora
             </Link>
+            */}
           </div>
         </div>
       </section>
@@ -204,6 +206,60 @@ export default function SieteAreasDptoJuridico() {
             consultoría para ayudarte a ganar control, orden y eficiencia.
           </p>
         </div>
+      </section>
+
+
+      <section className="relative z-10 max-w-5xl mx-auto px-6">
+        <div className="flex flex-col lg:flex-row text-left mt-10 lg:mt-20 lg:mb-10 gap-8 lg:gap-0">
+                      <div className="w-full lg:w-[40%] justify-center">
+                        <Image
+                          src="/jmgr.jpeg"
+                          alt="Juan Manuel Galdón Requena"
+                          width={600}
+                          height={600}
+                          className="rounded-xl mt-0 lg:mt-10 mx-auto w-[60%] lg:w-[75%] h-auto max-w-[300px]"
+                        /><br />
+                        <p className="text-[14px] lg:text-[16px] font-semibold text-[#010d3d90] mt-4 text-center">
+                          juanmanuelgaldon@institutodeinnovacion.es
+                        </p>                
+                      </div>
+                      <div className="lg:ml-10 mt-0 lg:mt-10 w-full lg:max-w-[60%]">
+                        <h1 className="text-[20px] sm:text-[24px] lg:text-[30px] font-black mb-6 lg:mb-10 text-center lg:text-left">
+                          "Cuando está bien diseñado, la función jurídica, se convierte en el sistema operativo interno de la empresa."
+                        </h1>
+                        <div className="text-center lg:text-left">
+                          <p className="text-[16px] lg:text-[18px] font-bold text-[#010d3d]">Juan Manuel Galdón Requena</p>
+                          <p className="text-[14px] lg:text-[16px] font-semibold text-[#010d3d90]">Profesor en Escuela de práctica jurídica de Madrid</p>
+                          <Image src="/icononormapro.png" alt="NormaPro" width={50} height={50} className="inline-block mt-4" />
+                        </div>
+                      </div>
+                    </div>
+      </section>
+      <section className="relative z-10 max-w-5xl mx-auto px-6 pb-16">
+        <div className="flex flex-col lg:flex-row text-left mt-10 lg:mt-20 mb-20 lg:mb-100 gap-8 lg:gap-0">
+                      <div className="w-full lg:w-[40%] justify-center">
+                        <Image
+                          src="/jarcos.jpeg"
+                          alt="Julio Arcos Quesada"
+                          width={600}
+                          height={600}
+                          className="rounded-xl mt-0 lg:mt-10 mx-auto w-[60%] lg:w-[75%] h-auto max-w-[300px]"
+                        /><br />
+                        <p className="text-[14px] lg:text-[16px] font-semibold text-[#010d3d90] mt-4 text-center">
+                          julioarcos@institutodeinnovacion.es
+                        </p>                
+                      </div>
+                      <div className="lg:ml-10 mt-0 lg:mt-10 w-full lg:max-w-[60%]">
+                        <h1 className="text-[20px] sm:text-[24px] lg:text-[30px] font-black mb-6 lg:mb-10 text-center lg:text-left">
+                          "Cuando la función jurídica deja de ser solo necesaria y se vuelve decisiva, TODO CAMBIA"
+                        </h1>
+                        <div className="text-center lg:text-left">
+                          <p className="text-[16px] lg:text-[18px] font-bold text-[#010d3d]">Julio Arcos Quesada</p>
+                          <p className="text-[14px] lg:text-[16px] font-semibold text-[#010d3d90]">Profesor en Escuela de práctica jurídica de Madrid</p>
+                          <Image src="/icononormapro.png" alt="NormaPro" width={50} height={50} className="inline-block mt-4" />
+                        </div>
+                      </div>
+                    </div>
       </section>
     </main>
   );

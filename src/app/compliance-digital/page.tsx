@@ -808,7 +808,7 @@ export default function CuestionarioComplianceDigitalV2() {
                   onClick={() => scrollToKey(unansweredKeys[0])}
                   className="ml-2 underline font-semibold"
                 >
-                  Ir a la siguiente sin contestar
+                  Ir a la siguiente pregunta
                 </button>
               </div>
             )}
@@ -894,7 +894,7 @@ export default function CuestionarioComplianceDigitalV2() {
                   onClick={() => scrollToKey(unansweredKeys[0])}
                   className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-4 py-2 font-semibold"
                 >
-                  Ir a la siguiente sin contestar
+                  Ir a la siguiente pregunta
                 </button>
                 <button
                   onClick={prepareSubmit}
