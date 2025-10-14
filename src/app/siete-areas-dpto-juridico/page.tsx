@@ -225,7 +225,7 @@ export default function SieteAreasDptoJuridico() {
                       </div>
                       <div className="lg:ml-10 mt-0 lg:mt-10 w-full lg:max-w-[60%]">
                         <h1 className="text-[20px] sm:text-[24px] lg:text-[30px] font-black mb-6 lg:mb-10 text-center lg:text-left">
-                          "Cuando está bien diseñado, la función jurídica, se convierte en el sistema operativo interno de la empresa."
+                          "Cuando está bien diseñada, la función jurídica, se convierte en el sistema operativo interno de la empresa."
                         </h1>
                         <div className="text-center lg:text-left">
                           <p className="text-[16px] lg:text-[18px] font-bold text-[#010d3d]">Juan Manuel Galdón Requena</p>
