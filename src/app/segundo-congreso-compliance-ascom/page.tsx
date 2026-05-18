@@ -92,9 +92,9 @@ export default function PageTestMadurezCumplimiento() {
             <p className="text-[20px] lg:text-[25px] leading-snug mb-8">
               No es una auditoría.<br />
               No es una certificación.<br />
-              <p className="text-[20px] lg:text-[26px] leading-snug font-black mb-8">
+              <span className="block text-[20px] lg:text-[26px] leading-snug font-black">
                 Es una herramienta de autodiagnóstico, práctica y orientada a la acción.
-              </p>
+              </span>
             </p>
           </div>
         </section>
