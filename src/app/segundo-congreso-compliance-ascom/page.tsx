@@ -78,7 +78,7 @@ export default function PageTestMadurezCumplimiento() {
 
         </section>
         <section className="px-4 lg:px-10 mt-8 lg:mt-12 mb-30">
-          <div className="max-w-5xl mx-auto text-left text-[#010d3d] space-y-4">
+          <div className="max-w-5xl mx-auto text-center lg:text-left text-[#010d3d] space-y-4">
             <p className="text-[28px] font-black leading-tight mb-8">Un test diseñado para profesionales de Compliance</p>
             <p className="text-[20px] lg:text-[25px] leading-snug mb-8">
               Este test ha sido preparado específicamente para los asistentes al Congreso ASCOM
@@ -113,14 +113,14 @@ export default function PageTestMadurezCumplimiento() {
               </div>
             </div>
 
-            <div className="w-full lg:w-[62%] order-1 lg:order-2 text-left pl-30">
+            <div className="w-full lg:w-[62%] order-1 lg:order-2 text-center lg:text-left pl-0 lg:pl-30">
               <h2 className="text-[38px] lg:text-[46px] xl:text-[52px] leading-tight font-black text-[#010d3d] lg:whitespace-nowrap">¿Qué encontrarás en este test?</h2>
-              <ul className="space-y-2 mt-6 lg:mt-8 list-none text-[#010d3d]">
-                <li className="flex items-start"><span className="mr-3 mt-1.5 flex-shrink-0 text-[12px]">✓</span><span className="text-[17px] lg:text-[24px] leading-snug">Evalúas tu sistema en <strong className="font-extrabold">6 dimensiones clave.</strong></span></li>
-                <li className="flex items-start"><span className="mr-3 mt-1.5 flex-shrink-0 text-[12px]">✓</span><span className="text-[17px] lg:text-[24px] leading-snug">Detectas si tu sistema <strong className="font-extrabold">demuestra eficacia real.</strong></span></li>
-                <li className="flex items-start"><span className="mr-3 mt-1.5 flex-shrink-0 text-[12px]">✓</span><span className="text-[17px] lg:text-[24px] leading-snug">Identificas <strong className="font-extrabold">puntos ciegos y oportunidades de mejora.</strong></span></li>
-                <li className="flex items-start"><span className="mr-3 mt-1.5 flex-shrink-0 text-[12px]">✓</span><span className="text-[17px] lg:text-[24px] leading-snug">Obtienes una lectura del nivel en el que se encuentra hoy tu sistema.</span></li>
-                <li className="flex items-start"><span className="mr-3 mt-1.5 flex-shrink-0 text-[12px]">✓</span><span className="text-[17px] lg:text-[24px] leading-snug">Accedes a orientaciones útiles para seguir evolucionando.</span></li>
+              <ul className="space-y-2 mt-6 lg:mt-8 list-none text-[#010d3d] max-w-[560px] mx-auto lg:max-w-none lg:mx-0">
+                <li className="flex items-start justify-center lg:justify-start"><span className="mr-3 mt-1.5 flex-shrink-0 text-[12px]">✓</span><span className="text-[17px] lg:text-[24px] leading-snug text-left">Evalúas tu sistema en <strong className="font-extrabold">6 dimensiones clave.</strong></span></li>
+                <li className="flex items-start justify-center lg:justify-start"><span className="mr-3 mt-1.5 flex-shrink-0 text-[12px]">✓</span><span className="text-[17px] lg:text-[24px] leading-snug text-left">Detectas si tu sistema <strong className="font-extrabold">demuestra eficacia real.</strong></span></li>
+                <li className="flex items-start justify-center lg:justify-start"><span className="mr-3 mt-1.5 flex-shrink-0 text-[12px]">✓</span><span className="text-[17px] lg:text-[24px] leading-snug text-left">Identificas <strong className="font-extrabold">puntos ciegos y oportunidades de mejora.</strong></span></li>
+                <li className="flex items-start justify-center lg:justify-start"><span className="mr-3 mt-1.5 flex-shrink-0 text-[12px]">✓</span><span className="text-[17px] lg:text-[24px] leading-snug text-left">Obtienes una lectura del nivel en el que se encuentra hoy tu sistema.</span></li>
+                <li className="flex items-start justify-center lg:justify-start"><span className="mr-3 mt-1.5 flex-shrink-0 text-[12px]">✓</span><span className="text-[17px] lg:text-[24px] leading-snug text-left">Accedes a orientaciones útiles para seguir evolucionando.</span></li>
               </ul>
             </div>
 
