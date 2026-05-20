@@ -156,8 +156,8 @@ export default function PageTestMadurezCumplimiento() {
               </h1>
               <div className="text-center lg:text-left">
                 <p className="text-[16px] lg:text-[18px] font-bold text-[#000000]"><strong>Juan Manuel Galdón Requena</strong></p>
-                <p className="text-[14px] lg:text-[16px]  text-[#000000]">Instituto de Innovación, Ciencia y Empresa</p>
-                <Image src="/Grupo 2996.png" alt="NormaPro" width={150} height={10} className="inline-block mt-4" />
+                
+                
               </div>
             </div>
           </div>
